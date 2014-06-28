@@ -20,7 +20,28 @@ var validateMessage = function (msgObj) {
   return true;
 };
 
-var getMessages = function (){
+var getMessages = function (callback){
+  db.getMessages(function(dbMsgs){
+    // Need to process the message results
+    var processedMessages = [];
+    // We expect to get objects with the following keys
+    //     createdAt: "2013-10-07T16:22:03.280Z"
+    //     objectId: "teDOY3Rnpe"
+    //     roomname: "lobby"
+    //     text: "hello"
+    //     updatedAt: "2013-10-07T16:22:03.280Z"
+    //     username: "gary"
+    dbMsgs.forEach(function(rawMsg){
+      var msg = {};
+      msg.createdAt = rawMsg.createdat;
+      msg.objectId = rawMsg.id;
+      msg.text = rawMsg.message;
+      msg.updatedAt = rawMsg.updatedat;
+      msg.username = rawMsg.username;
+      processedMessages.push(msg);
+    });
+    callback({results: processedMessages});
+  });
   // var result = [];
 
   // for(var message in msgStorage) {

@@ -18,6 +18,15 @@ dbConnection.connect();
  * using this module.*/
 
 
+module.exports.getMessages = function(callback){
+  dbConnection.query('select messages.message, messages.createdat, messages.updatedat, users.username, rooms.roomname '+
+                     'from messages, users, rooms where messages.user_id = users.id and messages.room_id = rooms.id ' +
+                     'order by messages.createdat DESC', function(error, results){
+    if (error) throw error;
+    callback(results);
+  });
+};
+
 module.exports.createMessage = function(msgObj, callback){
   //to create a message we need to make sure we have a user in the user table.
   checkUser(msgObj, callback);
@@ -83,3 +92,5 @@ var createMessageRow = function(msgObj, callback){
       callback();
     });
 };
+
+//select messages.message, messages.createdat, messages.updatedat, users.username, rooms.roomnamefrom messages, users, rooms where messages.user_id = users.id and messages.room_id = rooms.id;

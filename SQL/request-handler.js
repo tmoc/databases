@@ -128,22 +128,25 @@ var handleOptions = function(request, response){
 
 var handleGet = function(request, response){
 
-  var statusCode = 200;
+  messages.getMessages(function(messageObjs){
+    var statusCode = 200;
 
-  /* Without this line, this server wouldn't work. See the note
-   * below about CORS. */
-  var headers = defaultCorsHeaders;
+    /* Without this line, this server wouldn't work. See the note
+     * below about CORS. */
+    var headers = defaultCorsHeaders;
 
-  headers['Content-Type'] = "application/json";
+    headers['Content-Type'] = "application/json";
 
-  /* .writeHead() tells our server what HTTP status code to send back */
-  response.writeHead(statusCode, headers);
+    /* .writeHead() tells our server what HTTP status code to send back */
+    response.writeHead(statusCode, headers);
 
-  /* Make sure to always call response.end() - Node will not send
-   * anything back to the client until you do. The string you pass to
-   * response.end() will be the body of the response - i.e. what shows
-   * up in the browser.*/
-  response.end(JSON.stringify(messages.getMessages()));
+    /* Make sure to always call response.end() - Node will not send
+     * anything back to the client until you do. The string you pass to
+     * response.end() will be the body of the response - i.e. what shows
+     * up in the browser.*/
+    response.end(JSON.stringify(messageObjs));
+  });
+
 
 };
 
