@@ -29,7 +29,7 @@ var checkUser = function(msgObj, callback){
     if(result[0] && result[0].id){
       msgObj.userid = result[0].id;
       //we have the user in the DB. Now to check if the room exisits
-      createRoom(msgObj, callback);
+      checkRoom(msgObj, callback);
     } else {
       //We need to create the user first
       createUser(msgObj, callback);
